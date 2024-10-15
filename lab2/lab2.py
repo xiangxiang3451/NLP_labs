@@ -1,24 +1,17 @@
 import gensim
 import re
-
+#слова: спад,бум
 def main():
     # Определение списка позитивных слов
-    pos = ["спад_NOUN", "бум_NOUN"]
+    pos = ["подорожание_NOUN", "ажиотаж_NOUN"]
     neg = []  # Список негативных слов пустой
 
     # Загрузка модели cbow
     word2vec = gensim.models.KeyedVectors.load_word2vec_format("cbow.txt", binary=False)
 
-    # Получение векторов для 'спад_NOUN' и 'бум_NOUN'
-    vector_spad = word2vec["спад_NOUN"]
-    vector_bum = word2vec["бум_NOUN"]
-
-    # Вычисление линейной комбинации (взвешенное среднее)
-    # Здесь просто складываем два вектора
-    combined_vector = vector_spad + vector_bum
 
     # Получение 10 наиболее похожих слов на линейную комбинацию
-    dist = word2vec.most_similar(positive=[combined_vector], topn=10)
+    dist = word2vec.most_similar(positive=pos, topn=10)
 
     # Использование регулярных выражений для извлечения слов в формате "_NOUN"
     pat = re.compile("(.*)_NOUN")
